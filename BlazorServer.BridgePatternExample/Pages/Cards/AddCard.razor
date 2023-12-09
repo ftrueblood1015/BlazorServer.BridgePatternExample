@@ -1,0 +1,43 @@
+﻿@page "/addcard"
+@using BridgePatternExample.Domain.Models;
+@using BlazorServer.BridgePatternExample.Pages._Components;
+
+<MudText @attributes='Splats.PageHeader("newcard")'>Add Card</MudText>
+
+<MudGrid>
+    <MudItem xs="12" sm="7">
+        <MudPaper Class="pa-4">
+            <MudForm @ref="Form" @bind-IsValid="@success" @bind-Errors="@errors" Disabled="success">
+                <MudTextField @bind-Value="NewCard!.Name" @attributes='Splats.TextRequired("name")' />
+
+                <SelectBase T="CardRarity" Title="Rarity" HandleChange="RarityChange"></SelectBase>
+                <SelectBase T="CardType" Title="Type" HandleChange="TypeChange"></SelectBase>
+                <SelectBase T="ColorIdentity" Title="Color Identity" HandleChange="IdentityChange"></SelectBase>
+
+                <MudNumericField @bind-Value="NewCard!.ConvertedManaCost" @attributes='Splats.NumericRequired("manacost")' />
+                <MudNumericField @bind-Value="NewCard!.BaseCost" @attributes='Splats.NumericRequired("basecost")' />
+                <MudTextField @bind-Value="NewCard!.Set" @attributes='Splats.TextRequired("set")' />
+            </MudForm>
+        </MudPaper>
+        <MudPaper Class="pa-4 mt-4">
+            <MudButton @attributes="Splats.NewButton()" OnClick="Save">Save</MudButton>
+            <MudButton @attributes="Splats.ResetButton()" OnClick="@(()=>Form!.ResetAsync())" Class="mx-2">Reset</MudButton>
+            <MudButton @attributes="Splats.CancelButton()" OnClick="CancelClick">Cancel</MudButton>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12" sm="5">
+        <MudPaper Class="pa-4 mud-height-full">
+            @if (NewCard?.Id > 0)
+            {
+                <MudText Typo="Typo.h4">Card: @NewCard.Name</MudText>
+                <MudText Typo="Typo.h5">Cost: @NewCard.BaseCost</MudText>
+                <MudText Typo="Typo.h5">Set: @NewCard.Set</MudText>
+                <MudText Typo="Typo.h5">CVMC @NewCard.ConvertedManaCost</MudText>
+            }
+            else
+            {
+                <MudText Typo="Typo.h5">Card</MudText>
+            }
+        </MudPaper>
+    </MudItem>
+</MudGrid>

@@ -1,0 +1,21 @@
+﻿@page "/premiumorders"
+@using BlazorServer.BridgePatternExample.Domain.Models
+
+<MudDataGrid @attributes="Splats.DataGrid(Title!)" T="PremiumOrder" Items="@OrderList" SortMode="SortMode.Multiple" Filterable="true" QuickFilter="@QuickFilter" Hideable="true">
+    <ToolBarContent>
+        <MudText @attributes="Splats.PageHeader(Title!)">@Title</MudText>
+            <MudSpacer />
+            <MudTextField @attributes='Splats.SearchField()' @bind-Value="SearchString" Class="mt-0"></MudTextField>
+            <MudButton @attributes="Splats.NewButton()" class="ml-2" OnClick="AddOrder">New Order</MudButton>
+        </ToolBarContent>
+        <Columns>
+            <PropertyColumn Property="x => x.Name" Title="Card Name" Sortable="true" Filterable="false" InitialDirection="SortDirection.Ascending" />
+            <PropertyColumn Property="x => x.Card!.Name" Title="Card Name" Sortable="true" Filterable="false" />
+            <PropertyColumn Property="x => x.Condition!.Name" Title="Card Condition" Sortable="true" Filterable="false" />
+            <PropertyColumn Property="x => x.Reason" Title="Reason" Sortable="true" Filterable="false" />
+            <PropertyColumn Property="x => x.TotalCost" Title="Cost" Sortable="true" Filterable="false" />
+        </Columns>
+        <PagerContent>
+            <MudDataGridPager T="PremiumOrder" />
+        </PagerContent>
+    </MudDataGrid>

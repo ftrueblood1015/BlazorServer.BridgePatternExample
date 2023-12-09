@@ -1,0 +1,40 @@
+﻿@page "/addorder"
+@using BlazorServer.BridgePatternExample.Domain.Models;
+@using BlazorServer.BridgePatternExample.Pages._Components;
+
+<MudText @attributes='Splats.PageHeader("neworder")'>New Order</MudText>
+
+<MudGrid>
+    <MudItem xs="12" sm="7">
+        <MudPaper Class="pa-4">
+            <MudForm @ref="Form" @bind-IsValid="@success" @bind-Errors="@errors" Disabled="success">
+                <MudTextField @bind-Value="NewOrder!.Name" @attributes='Splats.TextRequired("name")' />
+
+                <SelectBase T="Card" Title="Card" HandleChange="CardChange"></SelectBase>
+                <SelectBase T="Condition" Title="Condition" HandleChange="ConditionChange"></SelectBase>
+
+                <MudTextField @bind-Value="NewOrder!.Comments" @attributes='Splats.TextAreaRequired("comments")' />
+            </MudForm>
+        </MudPaper>
+        <MudPaper Class="pa-4 mt-4">
+            <MudButton @attributes="Splats.NewButton()" OnClick="Save">Save</MudButton>
+            <MudButton @attributes="Splats.ResetButton()" OnClick="@(()=>Form!.ResetAsync())" Class="mx-2">Reset</MudButton>
+            <MudButton @attributes="Splats.CancelButton()" OnClick="CancelClick">Cancel</MudButton>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12" sm="5">
+        <MudPaper Class="pa-4 mud-height-full">
+            @if (NewOrder?.Id > 0)
+            {
+                <MudText Typo="Typo.h5">New Order</MudText>
+                <MudText Typo="Typo.h5">Name: @NewOrder.Name</MudText>
+                <MudText Typo="Typo.h5">Cost: @NewOrder.TotalCost</MudText>
+                <MudText Typo="Typo.h5">Comments: @NewOrder.Comments</MudText>
+            }
+            else
+            {
+                <MudText Typo="Typo.h5">Order</MudText>
+            }
+        </MudPaper>
+    </MudItem>
+</MudGrid>
